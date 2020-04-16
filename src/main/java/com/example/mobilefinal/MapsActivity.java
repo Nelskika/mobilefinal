@@ -39,7 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
     private PlacesClient placesClient;
-
+    private LatLng myLoc;
     private int radius;
 
 
@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         placesClient = Places.createClient(this);
 
 
-        radius = 2000;
+        radius = 5000;
 
 
         setContentView(R.layout.activity_maps);
@@ -99,8 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
 
-                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                            myLoc = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
                            /* //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                             mMap.setMapStyle(new MapStyleOptions(getResources().getString(R.string.map_style_json)));
 
@@ -134,12 +134,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             });*/
 
 
-                            String url = getUrl(location.getLatitude(),location.getLongitude(),"3","restaurant");
+                            String url = getUrl(location.getLatitude(),location.getLongitude(),"0","2","restaurant");
                             Object[] dataTrans = new Object[2];
                             dataTrans[0] = mMap;
                             dataTrans[1] =url;
                             GetNearby getNearby = new GetNearby();
                             getNearby.execute(dataTrans);
+
+
 
 
                             // Logic to handle location object
@@ -150,17 +152,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private String getUrl(double latitude, double longitude, String price, String nearbyPlace) {
+    private String getUrl(double latitude, double longitude, String minPrice,String maxPrice, String nearbyPlace) {
 
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=" + latitude + "," + longitude);
         googlePlacesUrl.append("&radius=" + radius);
-        googlePlacesUrl.append("&price_level=" +0);
+        googlePlacesUrl.append("&minPrice=" +minPrice);
+        googlePlacesUrl.append("&maxPrice=" +maxPrice);
         googlePlacesUrl.append("&type=" + nearbyPlace);
+       // googlePlacesUrl.append("&opennow=");
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + "AIzaSyCTDooNDxWEAGlMKnrUvsd3CJxIDwLJDFw");
         Log.d("getUrl", googlePlacesUrl.toString());
         return (googlePlacesUrl.toString());
+
 
 
     }
