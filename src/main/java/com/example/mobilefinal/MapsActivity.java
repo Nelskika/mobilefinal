@@ -101,37 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             myLoc = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
-                           /* //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                            mMap.setMapStyle(new MapStyleOptions(getResources().getString(R.string.map_style_json)));
 
-                            AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
-                            final FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder().setSessionToken(token).setQuery("E and A").build();                           final Task<FindAutocompletePredictionsResponse> autoPred = placesClient.findAutocompletePredictions(request);
-
-
-                            //https://stackoverflow.com/questions/54668523/how-to-implement-google-places-autocomplete-programmatically
-                            //https://stackoverflow.com/questions/15472383/how-can-i-run-code-on-a-background-thread-on-android
-                            /*AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        Tasks.await(placesClient.findAutocompletePredictions(request));
-                                    } catch (ExecutionException e) {
-                                        e.printStackTrace();
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    if(autoPred.isSuccessful()){
-                                        FindAutocompletePredictionsResponse autoRes = autoPred.getResult();
-                                        if(autoRes != null){
-                                            for(AutocompletePrediction prediction : autoRes.getAutocompletePredictions()){
-                                                System.out.println(prediction.getFullText(null));
-
-                                               // mMap.addMarker(new MarkerOptions(prediction.));
-                                            }
-                                        }
-                                    }
-                                }
-                            });*/
 
 
                             String url = getUrl(location.getLatitude(),location.getLongitude(),"0","2","restaurant");
@@ -140,7 +110,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             dataTrans[1] =url;
                             GetNearby getNearby = new GetNearby();
                             getNearby.execute(dataTrans);
-
 
 
 
