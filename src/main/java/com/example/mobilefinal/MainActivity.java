@@ -16,6 +16,8 @@ import android.widget.Switch;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap map;
@@ -62,15 +64,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    /**
+     * Goes to map, sends minprice, maxprice and a place type.
+    */
     private void toMap() {
+
+        Random rand = new Random();
 
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
 
         intent.putExtra("minPrice", priceMin.getSelectedItemPosition());
         intent.putExtra("priceMax", priceMax.getSelectedItemPosition());
 
+        //Decides what place type to send with intent
         switch (whatTodo.getSelectedItemPosition()) {
             case 0:
+                String[] foods = new String[] {"bakery", "cafe","restaurant", "Meal_deliver",
+                        "meal_takeaway"};
+                System.out.println(foods.length);
+                intent.putExtra("activity",foods[rand.nextInt(foods.length +1)]);
 
             case 1:
 

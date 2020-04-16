@@ -129,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlePlacesUrl.append("&minPrice=" +minPrice);
         googlePlacesUrl.append("&maxPrice=" +maxPrice);
         googlePlacesUrl.append("&type=" + nearbyPlace);
-       // googlePlacesUrl.append("&opennow=");
+        googlePlacesUrl.append("&opennow=");
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + "AIzaSyCTDooNDxWEAGlMKnrUvsd3CJxIDwLJDFw");
         Log.d("getUrl", googlePlacesUrl.toString());

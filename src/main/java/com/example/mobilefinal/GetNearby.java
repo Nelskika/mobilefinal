@@ -91,7 +91,7 @@ public class GetNearby extends AsyncTask<Object, String, String> {
             numMarkers = latLngs.size() /2;
         }
         for(int i =0; i < numMarkers; ++i) {
-            int pos = rand.nextInt(latLngs.size() + 1);
+            int pos = rand.nextInt(latLngs.size());
             if (!placed.contains(pos)) {
                 markerOptions.position(latLngs.get(pos));
                 markerOptions.title(adress.get(pos));
