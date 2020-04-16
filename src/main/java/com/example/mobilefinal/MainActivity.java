@@ -1,9 +1,11 @@
 package com.example.mobilefinal;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner priceMax;
     Spinner whatTodo;
 
-    private static final String[] LOCATION_PERMS={
+    private static final String[] LOCATION_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 toMap();
-             }
+            }
         });
 
         ArrayAdapter<String> adapter;
@@ -45,29 +47,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         priceMax = findViewById(R.id.price2);
 
         String[] priceOps = new String[]{"Free", "Cheap", "Moderate", "Expensive"};
-        String[] activityOps = new String[]{"Somewhere to eat","Something to do",
-                    "Somewhere to drink", "Somewhere to shop"};
+        String[] activityOps = new String[]{"Somewhere to eat", "Something to do",
+                "Somewhere to drink", "Somewhere to shop"};
 
         adapter = new ArrayAdapter<String>(this,
-                                android.R.layout.simple_spinner_item,priceOps);
+                android.R.layout.simple_spinner_item, priceOps);
         priceMin.setAdapter(adapter);
 
         priceMax.setAdapter(adapter);
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,activityOps);
+                android.R.layout.simple_spinner_item, activityOps);
         whatTodo.setAdapter(adapter);
 
     }
 
-    private  void  toMap(){
+    private void toMap() {
 
-        Intent intent = new Intent(MainActivity.this,MapsActivity.class);
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
 
         intent.putExtra("minPrice", priceMin.getSelectedItemPosition());
-        intent.putExtra("priceMax",priceMax.getSelectedItemPosition());
+        intent.putExtra("priceMax", priceMax.getSelectedItemPosition());
 
-        switch(whatTodo.getSelectedItemPosition()) {
+        switch (whatTodo.getSelectedItemPosition()) {
             case 0:
 
             case 1:
@@ -79,12 +81,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
-        startActivity(intent);
+        //This checks to see if the location permissions has been granted
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            //Requests user for permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
+            return;
+        }else {
+            //If permissions are given the activity is started
+            startActivity(intent);
+        }
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        map.setMyLocationEnabled(true);
+
     }
 }
