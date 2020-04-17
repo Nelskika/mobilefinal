@@ -102,20 +102,10 @@
         android:layout_height="wrap_content"
         android:text="Within"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintBottom_toBottomOf="@+id/radiusInput"
+        app:layout_constraintEnd_toStartOf="@+id/radiusInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(KM) "
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price2" />
+        app:layout_constraintTop_toTopOf="@+id/radiusInput" />
 
     <TextView
         android:id="@+id/textView7"
@@ -123,7 +113,19 @@
         android:layout_height="wrap_content"
         android:text="Kilometers."
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/radiusInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
+        app:layout_constraintStart_toEndOf="@+id/radiusInput"
+        app:layout_constraintTop_toTopOf="@+id/radiusInput" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/radiusInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="radius"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case 1:
                 String[] toDo  = new String[] {"amusement_park", "library","art_gallery",
                         "beauty_salon", "movie_theater","museum","park","casino",
-                        "spa","tourist_attraction","zoo","bowling_alley"};
+                        "spa","tourist_attraction","zoo","bowling_alley","hiking_trail"};
 
                 intent.putExtra("activity",toDo[rand.nextInt(toDo.length)]);
             case 2:
