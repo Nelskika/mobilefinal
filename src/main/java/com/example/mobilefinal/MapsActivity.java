@@ -133,6 +133,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             try {
                                 //waits for results
                                 String result = getNearby.execute(dataTrans).get(5, TimeUnit.SECONDS);
+                                mMap.setMapStyle(new MapStyleOptions(getResources()
+                                        .getString(R.string.map_style_json)));
                                 //if nothing is found makes toast, and finishes activity
                                 if(result.contains("ZERO_RESULTS")){
                                     Toast.makeText(MapsActivity.this,

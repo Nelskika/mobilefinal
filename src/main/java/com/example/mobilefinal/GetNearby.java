@@ -93,18 +93,21 @@ public class GetNearby extends AsyncTask<Object, String, String> {
         }else if (latLngs.size()  > 1){
             numMarkers = latLngs.size() /2;
         }
+
         for(int i =0; i < numMarkers; ++i) {
             int pos = rand.nextInt(latLngs.size());
             if (!placed.contains(pos)) {
                 markerOptions.position(latLngs.get(pos));
                 markerOptions.title(adress.get(pos));
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_AZURE));
                 mMap.addMarker(markerOptions);
                 //move map camera
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
                 placed.add(pos);
             }
         }
+
     }
 
 }
