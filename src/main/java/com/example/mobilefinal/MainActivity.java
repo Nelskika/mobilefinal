@@ -73,24 +73,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
 
+        //price ranges put in intent
         intent.putExtra("minPrice", priceMin.getSelectedItemPosition());
-        intent.putExtra("priceMax", priceMax.getSelectedItemPosition());
+        intent.putExtra("maxPrice", priceMax.getSelectedItemPosition());
 
         //Decides what place type to send with intent
         switch (whatTodo.getSelectedItemPosition()) {
             case 0:
                 String[] foods = new String[] {"bakery", "cafe","restaurant", "Meal_deliver",
                         "meal_takeaway"};
-                System.out.println(foods.length);
-                intent.putExtra("activity",foods[rand.nextInt(foods.length +1)]);
+
+                intent.putExtra("activity",foods[rand.nextInt(foods.length)]);
 
             case 1:
+                String[] toDo  = new String[] {"amusement_park", "library","art_gallery",
+                        "beauty_salon", "movie_theater","museum","park","casino",
+                        "spa","tourist_attraction","zoo","bowling_alley"};
 
+                intent.putExtra("activity",toDo[rand.nextInt(toDo.length)]);
             case 2:
+                String[] drinks = new String[] {"cafe","bar","liquor_store","restaurant",
+                        "night_club"};
 
+                intent.putExtra("activity",drinks[rand.nextInt(drinks.length)]);
             case 3:
+                String[] shop = new String[] {"book_store","bicycle_store","pet_store",
+                        "clothing_store","convenience_store","department_store","electronics_store",
+                        "shopping_mall","florist","supermarket","grocery_or_supermarket",
+                        "hardware_store","home_goods_store","jewelry_store"};
 
-
+                intent.putExtra("activity",shop[rand.nextInt(shop.length)]);
         }
 
         //This checks to see if the location permissions has been granted

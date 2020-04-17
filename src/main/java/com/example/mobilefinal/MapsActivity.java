@@ -4,12 +4,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -41,6 +43,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private PlacesClient placesClient;
     private LatLng myLoc;
     private int radius;
+    private  int  minPrice;
+    private  int maxPrice;
+    private String activity;
+    private GetNearby getNear;
 
 
     @Override
@@ -51,8 +57,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         placesClient = Places.createClient(this);
 
+        getNear = new GetNearby();
+        minPrice =0;
+        maxPrice =0;
+        activity = "restaurant";
+        radius = 15000;
 
-        radius = 5000;
+        Intent intent =this.getIntent();
+        if(intent.hasExtra("minPrice")){
+            minPrice = intent.getIntExtra("minPrice",0);
+        }
+        if (intent.hasExtra("maxPrice")){
+            maxPrice = intent.getIntExtra("maxPrice",0);
+        }
+
+        if(intent.hasExtra("activity")){
+            activity = intent.getStringExtra("activity");
+        }
+
+        if(intent.hasExtra("radius")){
+            radius= intent.getIntExtra("radius", 1000);
+        }
+        if(maxPrice <minPrice){
+            int temp = minPrice;
+            minPrice = maxPrice;
+            maxPrice = temp;
+        }
 
 
         setContentView(R.layout.activity_maps);
@@ -76,12 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             requestPermissions(
@@ -104,16 +129,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-                            String url = getUrl(location.getLatitude(),location.getLongitude(),"0","2","restaurant");
+                            String url = getUrl(location.getLatitude(),location.getLongitude(),
+                                    minPrice,maxPrice,activity);
                             Object[] dataTrans = new Object[2];
                             dataTrans[0] = mMap;
                             dataTrans[1] =url;
                             GetNearby getNearby = new GetNearby();
+
                             getNearby.execute(dataTrans);
-
-
-
-                            // Logic to handle location object
                         }
                     }
                 });
@@ -121,14 +144,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private String getUrl(double latitude, double longitude, String minPrice,String maxPrice, String nearbyPlace) {
+    private String getUrl(double latitude, double longitude,int minPrice,int maxPrice, String whatToDo) {
 
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=" + latitude + "," + longitude);
         googlePlacesUrl.append("&radius=" + radius);
         googlePlacesUrl.append("&minPrice=" +minPrice);
         googlePlacesUrl.append("&maxPrice=" +maxPrice);
-        googlePlacesUrl.append("&type=" + nearbyPlace);
+        googlePlacesUrl.append("&type=" + whatToDo);
         googlePlacesUrl.append("&opennow=");
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + "AIzaSyCTDooNDxWEAGlMKnrUvsd3CJxIDwLJDFw");

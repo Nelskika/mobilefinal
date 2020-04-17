@@ -1,5 +1,6 @@
 package com.example.mobilefinal;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -7,6 +8,7 @@ import android.util.Log;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +33,6 @@ public class GetNearby extends AsyncTask<Object, String, String> {
     String googlePlacesData;
     GoogleMap mMap;
     String url;
-    static  Intent i;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -39,7 +40,6 @@ public class GetNearby extends AsyncTask<Object, String, String> {
             Log.d("GetNearbyPlacesData", "doInBackground entered");
             mMap = (GoogleMap) params[0];
             url = (String) params[1];
-            System.out.println( "url " + url);
             DownloadUrl downloadUrl = new DownloadUrl();
             googlePlacesData = downloadUrl.readUrl(url);
             Log.d("GooglePlacesReadTask", "doInBackground Exit");
@@ -51,11 +51,11 @@ public class GetNearby extends AsyncTask<Object, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        System.out.println("on Post");
+
         Log.d("GooglePlacesReadTask", "onPostExecute Entered");
         List<HashMap<String, String>> nearbyPlacesList = null;
         DataParser dataParser = new DataParser();
-        System.out.println("Result " + result);
+
         nearbyPlacesList =  dataParser.parse(result);
         ShowNearbyPlaces(nearbyPlacesList);
         Log.d("GooglePlacesReadTask", "onPostExecute Exit");
@@ -63,7 +63,7 @@ public class GetNearby extends AsyncTask<Object, String, String> {
 
     private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
 
-        ArrayList<LatLng> latLngs = new ArrayList<>();
+         ArrayList<LatLng> latLngs = new ArrayList<>();
         ArrayList<String> name = new ArrayList<>();
         ArrayList<String> adress = new ArrayList<>();
         for (int i = 0; i < nearbyPlacesList.size(); i++) {
@@ -84,9 +84,8 @@ public class GetNearby extends AsyncTask<Object, String, String> {
         Random rand = new Random();
         ArrayList<Integer> placed = new ArrayList<>();
         int numMarkers = 1;
-
         if(latLngs.size() == 0) {
-            return;
+           return;
         }else if (latLngs.size()  > 1){
             numMarkers = latLngs.size() /2;
         }
@@ -104,7 +103,6 @@ public class GetNearby extends AsyncTask<Object, String, String> {
                 placed.add(pos);
             }
         }
-        System.out.println(numMarkers + " Nummarkers");
-        System.out.println(latLngs.size() + " Size");
     }
+
 }

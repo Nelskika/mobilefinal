@@ -24,16 +24,16 @@ public class DownloadUrl {
 
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
-            System.out.println("connecton");
+
 
             // Connecting to url
             urlConnection.connect();
-            System.out.println("connected");
+
             // Reading data from url
             iStream = urlConnection.getInputStream();
-            System.out.println("Read url");
+
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-            System.out.println("buffered reader");
+
 
             StringBuffer sb = new StringBuffer();
 
