@@ -2,7 +2,6 @@ package com.example.mobilefinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,11 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Random;
 
@@ -69,8 +66,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ArrayAdapter<String> adapter;
         radiusInput = findViewById(R.id.radius);
         whatTodo = findViewById(R.id.whatTodo);
-        priceMin = findViewById(R.id.price);
-        priceMax = findViewById(R.id.price2);
+        priceMin = findViewById(R.id.priceMinimum);
+        priceMax = findViewById(R.id.priceMaximum);
+
 
         String[] priceOps = new String[]{"Free", "Cheap", "Moderate", "Expensive"};
         String[] activityOps = new String[]{"Somewhere to eat", "Something to do",

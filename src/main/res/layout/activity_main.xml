@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Spinner
-        android:id="@+id/price"
+        android:id="@+id/priceMinimum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Spinner
-        android:id="@+id/price2"
+        android:id="@+id/priceMaximum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -81,7 +81,7 @@
         android:layout_marginBottom="8dp"
         android:text="I want costs between"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/price"
+        app:layout_constraintBottom_toTopOf="@+id/priceMinimum"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/whatTodo" />
 
@@ -94,7 +94,7 @@
         android:text="and"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintTop_toBottomOf="@+id/priceMinimum" />
 
     <TextView
         android:id="@+id/textView5"
@@ -134,6 +134,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/price2" />
+        app:layout_constraintTop_toBottomOf="@+id/priceMaximum" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
