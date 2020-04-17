@@ -102,10 +102,10 @@
         android:layout_height="wrap_content"
         android:text="Within"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="@+id/radiusInput"
-        app:layout_constraintEnd_toStartOf="@+id/radiusInput"
+        app:layout_constraintBottom_toBottomOf="@+id/radius"
+        app:layout_constraintEnd_toStartOf="@+id/radius"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radiusInput" />
+        app:layout_constraintTop_toTopOf="@+id/radius" />
 
     <TextView
         android:id="@+id/textView7"
@@ -113,19 +113,22 @@
         android:layout_height="wrap_content"
         android:text="Kilometers."
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="@+id/radiusInput"
+        app:layout_constraintBottom_toBottomOf="@+id/radius"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radiusInput"
-        app:layout_constraintTop_toTopOf="@+id/radiusInput" />
+        app:layout_constraintStart_toEndOf="@+id/radius"
+        app:layout_constraintTop_toTopOf="@+id/radius" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/radiusInput"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/radius"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:ems="10"
         android:hint="radius"
+        android:inputType="number"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/price2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

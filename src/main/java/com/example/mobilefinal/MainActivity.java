@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Random;
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner priceMin;
     Spinner priceMax;
     Spinner whatTodo;
+    EditText radiusInput;
 
     final int LOCATION_RESPONDED = 0;
 
@@ -39,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     toMap();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 return;
             }
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         ArrayAdapter<String> adapter;
-
+        radiusInput = findViewById(R.id.radius);
         whatTodo = findViewById(R.id.whatTodo);
         priceMin = findViewById(R.id.price);
         priceMax = findViewById(R.id.price2);
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         switch (whatTodo.getSelectedItemPosition()) {
             case 0:
                 String[] foods = new String[] {"bakery", "cafe","restaurant", "Meal_deliver",
-                        "meal_takeaway"};
+                        "meal_takeaway","fast_food"};
 
                 intent.putExtra("activity",foods[rand.nextInt(foods.length)]);
 
@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 intent.putExtra("activity",shop[rand.nextInt(shop.length)]);
         }
 
+        double radius = parseRadius();
+        intent.putExtra("radius",radius);
         //This checks to see if the location permissions has been granted
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -143,6 +145,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //If permissions are given the activity is started
             startActivity(intent);
         }
+    }
+
+    double parseRadius(){
+        double radius = 0;
+
+        String radiusRawText = radiusInput.getText().toString();
+        radius = Double.parseDouble(radiusRawText);
+
+        return radius;
     }
 
     @Override
