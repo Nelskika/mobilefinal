@@ -130,7 +130,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         double radius = parseRadius();
-        intent.putExtra("radius",radius);
+        if(radius > 50){
+            radius = 50;
+        }
+        if(radius <= 0){
+            radius = 1;
+        }
+        intent.putExtra("radius",(int)radius*1000);
         //This checks to see if the location permissions has been granted
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -151,8 +157,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         double radius = 0;
 
         String radiusRawText = radiusInput.getText().toString();
-        radius = Double.parseDouble(radiusRawText);
-
+        if(!radiusRawText.equals("")) {
+            radius = Double.parseDouble(radiusRawText);
+        }
         return radius;
     }
 

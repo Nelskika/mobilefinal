@@ -45,7 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationClient;
     private PlacesClient placesClient;
     private LatLng myLoc;
-    private double radius;
+    private int radius;
     private  int  minPrice;
     private  int maxPrice;
     private String activity;
@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if(intent.hasExtra("radius")){
-            radius= intent.getDoubleExtra("radius", 1000);
+            radius= intent.getIntExtra("radius", 1000);
         }
         if(maxPrice <minPrice){
             int temp = minPrice;
