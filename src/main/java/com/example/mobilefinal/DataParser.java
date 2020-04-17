@@ -1,19 +1,15 @@
 package com.example.mobilefinal;
 
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by navneet on 23/7/16.
- *
- * parsers data from the returned json from the Url search
  */
 public class DataParser {
     public List<HashMap<String, String>> parse(String jsonData) {
@@ -68,8 +64,10 @@ public class DataParser {
             if (!googlePlaceJson.isNull("vicinity")) {
                 vicinity = googlePlaceJson.getString("vicinity");
             }
-            latitude = googlePlaceJson.getJSONObject("geometry").getJSONObject("location").getString("lat");
-            longitude = googlePlaceJson.getJSONObject("geometry").getJSONObject("location").getString("lng");
+            latitude = googlePlaceJson.getJSONObject("geometry").getJSONObject("location")
+                    .getString("lat");
+            longitude = googlePlaceJson.getJSONObject("geometry").getJSONObject("location")
+                    .getString("lng");
             reference = googlePlaceJson.getString("reference");
             googlePlaceMap.put("place_name", placeName);
             googlePlaceMap.put("vicinity", vicinity);

@@ -18,9 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-
-    GoogleMap map;
+public class MainActivity extends AppCompatActivity{
     Spinner priceMin;
     Spinner priceMax;
     Spinner whatTodo;
@@ -56,33 +54,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         Button b = findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toMap();
-            }
-        });
-
-        ArrayAdapter<String> adapter;
         radiusInput = findViewById(R.id.radius);
         whatTodo = findViewById(R.id.whatTodo);
         priceMin = findViewById(R.id.priceMinimum);
         priceMax = findViewById(R.id.priceMaximum);
 
 
-        String[] priceOps = new String[]{"Free", "Cheap", "Moderate", "Expensive"};
+        ArrayAdapter<String> adapter;
+        String[] priceOps = new String[]{"Cheap", "Fairly cheap", "Moderate","Fairly Expensive",
+                "Expensive"};
         String[] activityOps = new String[]{"Somewhere to eat", "Something to do",
                 "Somewhere to drink", "Somewhere to shop"};
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, priceOps);
         priceMin.setAdapter(adapter);
-
         priceMax.setAdapter(adapter);
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, activityOps);
         whatTodo.setAdapter(adapter);
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toMap();
+            }
+        });
 
     }
 
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void toMap() {
 
         Random rand = new Random();
-
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
 
         //price ranges put in intent
@@ -138,12 +135,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //This checks to see if the location permissions has been granted
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             //Requests user for permission
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_RESPONDED);
-
-
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_RESPONDED);
             return;
         }else {
             //If permissions are given the activity is started
@@ -161,10 +158,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return radius;
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-    }
 }

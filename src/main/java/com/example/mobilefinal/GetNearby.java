@@ -27,6 +27,7 @@ import java.util.Random;
 
 /**
  * Created by navneet on 23/7/16.
+ * Modified by Kameron Nelski 4-10-20
  */
 public class GetNearby extends AsyncTask<Object, String, String> {
 
@@ -55,7 +56,6 @@ public class GetNearby extends AsyncTask<Object, String, String> {
         Log.d("GooglePlacesReadTask", "onPostExecute Entered");
         List<HashMap<String, String>> nearbyPlacesList = null;
         DataParser dataParser = new DataParser();
-
         nearbyPlacesList =  dataParser.parse(result);
         ShowNearbyPlaces(nearbyPlacesList);
         Log.d("GooglePlacesReadTask", "onPostExecute Exit");
@@ -63,20 +63,18 @@ public class GetNearby extends AsyncTask<Object, String, String> {
 
     private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
 
-         ArrayList<LatLng> latLngs = new ArrayList<>();
-        ArrayList<String> name = new ArrayList<>();
+        //Kameron's additions
+        ArrayList<LatLng> latLngs = new ArrayList<>();
         ArrayList<String> adress = new ArrayList<>();
+
+
         for (int i = 0; i < nearbyPlacesList.size(); i++) {
-
             Log.d("onPostExecute", "Entered into showing locations");
-
             HashMap<String, String> googlePlace = nearbyPlacesList.get(i);
             double lat = Double.parseDouble(googlePlace.get("lat"));
             double lng = Double.parseDouble(googlePlace.get("lng"));
-            String placeName = googlePlace.get("place_name");
             String vicinity = googlePlace.get("vicinity");
             LatLng latLng = new LatLng(lat, lng);
-            name.add(placeName);
             latLngs.add(latLng);
             adress.add(vicinity);
         }
@@ -86,8 +84,10 @@ public class GetNearby extends AsyncTask<Object, String, String> {
         MarkerOptions markerOptions = new MarkerOptions();
         Random rand = new Random();
         ArrayList<Integer> placed = new ArrayList<>();
-        int numMarkers = 1;
+        //Kameron's Modifications
 
+
+        int numMarkers = 1;
         if(latLngs.size() == 0) {
            return;
         }else if (latLngs.size()  > 1){
@@ -99,10 +99,8 @@ public class GetNearby extends AsyncTask<Object, String, String> {
                 markerOptions.position(latLngs.get(pos));
                 markerOptions.title(adress.get(pos));
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                 mMap.addMarker(markerOptions);
-
+                mMap.addMarker(markerOptions);
                 //move map camera
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngs.get(pos)));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
                 placed.add(pos);
             }

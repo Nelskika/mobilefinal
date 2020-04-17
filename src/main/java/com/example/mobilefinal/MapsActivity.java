@@ -43,24 +43,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
-    private PlacesClient placesClient;
     private LatLng myLoc;
     private int radius;
     private  int  minPrice;
     private  int maxPrice;
     private String activity;
-    private GetNearby getNear;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         Places.initialize(getApplicationContext(), "AIzaSyCTDooNDxWEAGlMKnrUvsd3CJxIDwLJDFw");
 
-        placesClient = Places.createClient(this);
-
-        getNear = new GetNearby();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         minPrice =0;
         maxPrice =0;
         activity = "restaurant";
@@ -102,10 +98,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             requestPermissions(
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -124,16 +121,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             myLoc = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
 
-
-
                             String url = getUrl(location.getLatitude(),location.getLongitude(),
                                     minPrice,maxPrice,activity); //takes input converts to Url
+
                             Object[] dataTrans = new Object[2];
                             dataTrans[0] = mMap;
                             dataTrans[1] =url;
+
                             //Async that gets nearby places and places markers
                             GetNearby getNearby = new GetNearby();
-
                             try {
                                 //waits for results
                                 String result = getNearby.execute(dataTrans).get(5, TimeUnit.SECONDS);
@@ -169,8 +165,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @return finsihed url
      */
     private String getUrl(double latitude, double longitude,int minPrice,int maxPrice, String whatToDo) {
-
-        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        StringBuilder googlePlacesUrl = new StringBuilder(
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=" + latitude + "," + longitude);
         googlePlacesUrl.append("&radius=" + radius);
         googlePlacesUrl.append("&minPrice=" +minPrice);
@@ -181,9 +177,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlePlacesUrl.append("&key=" + "AIzaSyCTDooNDxWEAGlMKnrUvsd3CJxIDwLJDFw");
         Log.d("getUrl", googlePlacesUrl.toString());
         return (googlePlacesUrl.toString());
-
-
-
     }
 
 
