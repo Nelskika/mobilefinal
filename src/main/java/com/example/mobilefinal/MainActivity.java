@@ -2,6 +2,7 @@ package com.example.mobilefinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -10,11 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Random;
 
@@ -24,6 +27,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner priceMin;
     Spinner priceMax;
     Spinner whatTodo;
+    EditText radiusInput;
+
+    final int LOCATION_RESPONDED = 0;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_RESPONDED: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    toMap();
+                }
+                return;
+            }
+        }
+    }
+
 
     private static final String[] LOCATION_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -43,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         ArrayAdapter<String> adapter;
-
+        radiusInput = findViewById(R.id.radius);
         whatTodo = findViewById(R.id.whatTodo);
         priceMin = findViewById(R.id.price);
         priceMax = findViewById(R.id.price2);
@@ -81,14 +105,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         switch (whatTodo.getSelectedItemPosition()) {
             case 0:
                 String[] foods = new String[] {"bakery", "cafe","restaurant", "Meal_deliver",
-                        "meal_takeaway"};
+                        "meal_takeaway","fast_food"};
 
                 intent.putExtra("activity",foods[rand.nextInt(foods.length)]);
 
             case 1:
                 String[] toDo  = new String[] {"amusement_park", "library","art_gallery",
                         "beauty_salon", "movie_theater","museum","park","casino",
-                        "spa","tourist_attraction","zoo","bowling_alley"};
+                        "spa","tourist_attraction","zoo","bowling_alley","hiking_trail"};
 
                 intent.putExtra("activity",toDo[rand.nextInt(toDo.length)]);
             case 2:
@@ -105,18 +129,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 intent.putExtra("activity",shop[rand.nextInt(shop.length)]);
         }
 
+        double radius = parseRadius();
+        intent.putExtra("radius",radius);
         //This checks to see if the location permissions has been granted
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             //Requests user for permission
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_RESPONDED);
+
+
             return;
         }else {
             //If permissions are given the activity is started
             startActivity(intent);
         }
+    }
+
+    double parseRadius(){
+        double radius = 0;
+
+        String radiusRawText = radiusInput.getText().toString();
+        radius = Double.parseDouble(radiusRawText);
+
+        return radius;
     }
 
     @Override
