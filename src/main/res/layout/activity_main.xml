@@ -79,7 +79,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="I want to spend at least..."
+        android:text="I want costs between"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/price"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
-        android:text="I want to spend at most..."
+        android:text="and"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/price" />
