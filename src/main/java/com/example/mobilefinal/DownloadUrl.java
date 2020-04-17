@@ -12,6 +12,7 @@ import java.net.URL;
 
 /**
  * Created by navneet on 23/7/16.
+ * connects to the Url and downloads the Json to be parsed
  */
 public class DownloadUrl {
 

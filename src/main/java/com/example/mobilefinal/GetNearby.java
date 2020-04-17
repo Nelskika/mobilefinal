@@ -80,10 +80,14 @@ public class GetNearby extends AsyncTask<Object, String, String> {
             latLngs.add(latLng);
             adress.add(vicinity);
         }
+
+
+
         MarkerOptions markerOptions = new MarkerOptions();
         Random rand = new Random();
         ArrayList<Integer> placed = new ArrayList<>();
         int numMarkers = 1;
+
         if(latLngs.size() == 0) {
            return;
         }else if (latLngs.size()  > 1){

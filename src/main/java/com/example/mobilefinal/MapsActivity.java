@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.SymbolTable;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -35,6 +36,8 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback  {
 
@@ -94,13 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     *Moves the camera to current location, searches for nearby places that fit criteria.
+     * If nothing is found finishes activity and propmpts for another try.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -116,7 +114,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
 
-
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -130,20 +127,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                             String url = getUrl(location.getLatitude(),location.getLongitude(),
-                                    minPrice,maxPrice,activity);
+                                    minPrice,maxPrice,activity); //takes input converts to Url
                             Object[] dataTrans = new Object[2];
                             dataTrans[0] = mMap;
                             dataTrans[1] =url;
+                            //Async that gets nearby places and places markers
                             GetNearby getNearby = new GetNearby();
 
-                            getNearby.execute(dataTrans);
+                            try {
+                                //waits for results
+                                String result = getNearby.execute(dataTrans).get(5, TimeUnit.SECONDS);
+                                //if nothing is found makes toast, and finishes activity
+                                if(result.contains("ZERO_RESULTS")){
+                                    Toast.makeText(MapsActivity.this,
+                                            "Nothing found!Lets try again!",
+                                            Toast.LENGTH_LONG).show();
+                                            finish();
+                                }
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (TimeoutException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
-
-
     }
 
+
+    /**
+     * base code from https://www.androidtutorialpoint.com/intermediate/google-maps-search-nearby-
+     * displaying-nearby-places-using-google-places-api-google-maps-api-v2/ by Navneet
+     * Creates the Url that is used for searching
+     * @param latitude latitude for nearby search
+     * @param longitude longitude for nearby search
+     * @param minPrice minimum price of place
+     * @param maxPrice max price of place
+     * @param whatToDo type of place to ge searched
+     * @return finsihed url
+     */
     private String getUrl(double latitude, double longitude,int minPrice,int maxPrice, String whatToDo) {
 
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");

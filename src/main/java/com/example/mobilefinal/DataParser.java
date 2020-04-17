@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Created by navneet on 23/7/16.
+ *
+ * parsers data from the returned json from the Url search
  */
 public class DataParser {
     public List<HashMap<String, String>> parse(String jsonData) {
