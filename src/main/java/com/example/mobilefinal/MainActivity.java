@@ -103,18 +103,20 @@ public class MainActivity extends AppCompatActivity{
                         "meal_takeaway","fast_food"};
 
                 intent.putExtra("activity",foods[rand.nextInt(foods.length)]);
-
+                break;
             case 1:
                 String[] toDo  = new String[] {"amusement_park", "library","art_gallery",
                         "beauty_salon", "movie_theater","museum","park","casino",
                         "spa","tourist_attraction","zoo","bowling_alley","hiking_trail"};
 
                 intent.putExtra("activity",toDo[rand.nextInt(toDo.length)]);
+                break;
             case 2:
                 String[] drinks = new String[] {"cafe","bar","liquor_store","restaurant",
                         "night_club"};
 
                 intent.putExtra("activity",drinks[rand.nextInt(drinks.length)]);
+                break;
             case 3:
                 String[] shop = new String[] {"book_store","bicycle_store","pet_store",
                         "clothing_store","convenience_store","department_store","electronics_store",
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity{
                         "hardware_store","home_goods_store","jewelry_store"};
 
                 intent.putExtra("activity",shop[rand.nextInt(shop.length)]);
+                break;
         }
 
         double radius = parseRadius();
